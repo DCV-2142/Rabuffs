@@ -266,30 +266,30 @@ function RAB_DefaultQueryHandler(userData, needraw, needtxt)
 		end
 
 		if (uc == 0) then
-			hastxt = hastxt ..
-					(hastxt ~= "" and ", " or "") ..
-					(rawsort == "group" and sRAB_BuffOutput_Group or "") ..
-					ident .. (rawsort == "class" and "s" or "") .. " [" .. bc .. "]";
+			if (bc > 1) then
+				hastxt = hastxt ..
+						(hastxt ~= "" and ", " or "") ..
+						(rawsort == "group" and sRAB_BuffOutput_Group or "") ..
+						ident .. (rawsort == "class" and "s" or "") .. " [" .. bc .. "]";
+			else
+				hastxt = hastxt .. (hastxt ~= "" and ", " or "") .. bb;
+			end
 		elseif (bc == 0) then
-			txt = txt ..
-					(txt ~= "" and ", " or "") ..
-					(rawsort == "group" and sRAB_BuffOutput_Group or "") ..
-					ident .. (rawsort == "class" and "s" or "") .. " [" .. uc .. "]";
+			if (uc > 1) then
+				txt = txt ..
+						(txt ~= "" and ", " or "") ..
+						(rawsort == "group" and sRAB_BuffOutput_Group or "") ..
+						ident .. (rawsort == "class" and "s" or "") .. " [" .. uc .. "]";
+			else
+				txt = txt .. (txt ~= "" and ", " or "") .. ub;
+			end
 		else
 			hastxt = hastxt .. (hastxt ~= "" and ", " or "") .. bb;
 			txt = txt .. (txt ~= "" and ", " or "") .. ub;
 		end
 
-		if (buffed == total and total > 0) then
-			txt = string.format(sRAB_BuffOutput_EveryoneHas, buffData.name);
-			hastxt = txt;
-		elseif (buffed > 0) then
-			txt = txthead .. " [" .. (total - buffed) .. " / " .. total .. "] " .. txt .. ".";
-			hastxt = hashead .. " [" .. buffed .. " / " .. total .. "] " .. hastxt .. ".";
-		else
-			txt = string.format(sRAB_BuffOutput_EveryoneMissing, buffData.name);
-			hastxt = txt;
-		end
+		txt = txthead .. " [" .. (total - buffed) .. " / " .. total .. "] " .. txt .. ".";
+		hastxt = hashead .. " [" .. buffed .. " / " .. total .. "] " .. hastxt .. ".";
 	else
 		txt = buffData.name .. ": not applicable.";
 		hastxt = buffData.name .. ": not applicable.";
